@@ -1,0 +1,40 @@
+name: Action Types Demo
+
+on: [workflow_dispatch]
+
+jobs:
+  # https://github.com/AlexLakatos/puns-dev-action
+  javascript-action:
+    name: Javascript
+    runs-on: ubuntu-latest
+    steps:
+      - uses: AlexLakatos/puns-dev-action@v1.3
+        id: pun
+      - name: Output
+        run: |
+          echo '"${{ steps.pun.outputs.pun }}"' >> $GITHUB_STEP_SUMMARY
+          echo '"${{ steps.pun.outputs.punchline }}"' >> $GITHUB_STEP_SUMMARY
+    
+
+  # https://github.com/mickeygoussetorg/get-a-dad-joke
+  composite-action:
+    name: Composite
+    runs-on: ubuntu-latest
+    steps:
+      # Get the joke
+      - id: myjoke
+        uses: mickeygoussetorg/get-a-dad-joke@v1
+      # Use the joke output in another step
+      - name: Output Dad Joke
+        run: echo '${{ steps.myjoke.outputs.dad-joke }}' >> $GITHUB_STEP_SUMMARY
+  
+  # https://github.com/actions/hello-world-docker-action
+  docker-action:
+    name: Docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print to Log
+        id: print-to-log
+        uses: actions/hello-world-docker-action@v2
+        with:
+          who-to-greet: "@m4s-b3n"

@@ -1,0 +1,27 @@
+name: Cache Demo
+
+on: 
+  push:
+    paths:
+      - .github/workflows/demo-cache.yml
+  workflow_dispatch:
+
+jobs:
+  cache:
+    name: Demo Cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: cache-demo
+          key: ${{ runner.os }}-cache-demo
+      - name: Generate Cache
+        if: ${{ steps.cache.outputs.cache-hit == false }}
+        run: echo "1 2 3..." > cache-demo
+      - name: Use Cache
+        run: cat cache-demo
+        
