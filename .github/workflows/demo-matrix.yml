@@ -10,6 +10,8 @@ jobs:
       matrix:
         browser: [chrome, firefox, safari]
         connection: [4G, 5G, 6G]
+        color: [blue, red, green]
     steps:
       - run: echo "Browser ${{ matrix.browser }}"
       - run: echo "Conection ${{ matrix.connection }}"
+      - run: echo "Color ${{ matrix.color }}"
